@@ -51,6 +51,7 @@ import com.reelify.kkkkwillo.net.request.RetrofitManager;
 import com.reelify.kkkkwillo.utils.AdIdManager;
 import com.reelify.kkkkwillo.utils.MySettings;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -170,7 +171,6 @@ public class VideoFragment extends Fragment implements VideoPagerAdapter.VideoEn
                 VideoPagerAdapter.VideoViewHolder oldVideoViewHolder = (VideoPagerAdapter.VideoViewHolder) oldViewHolder;
                 if (oldVideoViewHolder.exoPlayer != null) {
                     oldVideoViewHolder.exoPlayer.pause();
-                    oldVideoViewHolder.pause.setVisibility(View.GONE);
                 }
             }
         }
@@ -190,7 +190,7 @@ public class VideoFragment extends Fragment implements VideoPagerAdapter.VideoEn
 
     @Override
     public void onVideoEnd(int position) {
-       if (!CONFIG_INFO.data.end.ends){
+       if (CONFIG_INFO.data.end.ends&&listInfo.getData().getVideos().get(position).getType().equalsIgnoreCase("C")){
            postVideEnd(listInfo.getData().getVideos().get(position).getId() + "");
            if (dialogA != null) {
                dialogA.dismiss();
@@ -344,7 +344,7 @@ public class VideoFragment extends Fragment implements VideoPagerAdapter.VideoEn
 
     public void invokeApp(int position, String url, String type) {
         Gson gson = new Gson();
-        List<String> idList;
+        List<String> idList=new ArrayList<>();
         String idJson = MySettings.getInstance().getStringSetting("idList");
         idList = gson.fromJson(idJson, new TypeToken<List<String>>() {
         }.getType());
@@ -472,7 +472,6 @@ public class VideoFragment extends Fragment implements VideoPagerAdapter.VideoEn
                 VideoPagerAdapter.VideoViewHolder currentVideoViewHolder = (VideoPagerAdapter.VideoViewHolder) currentViewHolder;
                 if (currentVideoViewHolder.exoPlayer != null) {
                     currentVideoViewHolder.exoPlayer.pause();
-                    currentVideoViewHolder.exoPlayer.pause();
                 }
             }
         }
@@ -492,7 +491,6 @@ public class VideoFragment extends Fragment implements VideoPagerAdapter.VideoEn
                         currentVideoViewHolder.exoPlayer.pause();
                     } else {
                         currentVideoViewHolder.exoPlayer.play();
-                        currentVideoViewHolder.pause.setVisibility(View.GONE);
                     }
 
                 }
@@ -529,9 +527,9 @@ public class VideoFragment extends Fragment implements VideoPagerAdapter.VideoEn
         map.put("attributes", MySettings.getInstance().getStringSetting("attribution"));
         map.put("app", "reelify");
         map.put("timestamp", time);
-        map.put("userid", time + AdIdManager.RandomNum());
-        map.put("language", Locale.getDefault().getLanguage() + "-" + Locale.getDefault().getCountry());
-        map.put("version", "1.0");
+        map.put("userid", time + MySettings.getInstance().getStringSetting("userId"));
+        map.put("language", Locale.getDefault().getLanguage() + "_" + Locale.getDefault().getCountry());
+        map.put("version", "1.2.0");
         map.put("event", "videos_show_list");
         map.put("session", MySettings.getInstance().getIntSetting("session"));
         map.put("ext1", videoId);
@@ -566,9 +564,9 @@ public class VideoFragment extends Fragment implements VideoPagerAdapter.VideoEn
         map.put("attributes", MySettings.getInstance().getStringSetting("attribution"));
         map.put("app", "reelify");
         map.put("timestamp", time);
-        map.put("userid", time + AdIdManager.RandomNum());
-        map.put("language", Locale.getDefault().getLanguage() + "-" + Locale.getDefault().getCountry());
-        map.put("version", "1.0");
+        map.put("userid", time + MySettings.getInstance().getStringSetting("userId"));
+        map.put("language", Locale.getDefault().getLanguage() + "_" + Locale.getDefault().getCountry());
+        map.put("version", "1.2.0");
         map.put("event", "videos_show_clist");
         map.put("session", MySettings.getInstance().getIntSetting("session"));
         map.put("ext1", videoId);
@@ -603,9 +601,9 @@ public class VideoFragment extends Fragment implements VideoPagerAdapter.VideoEn
         map.put("attributes", MySettings.getInstance().getStringSetting("attribution"));
         map.put("app", "reelify");
         map.put("timestamp", time);
-        map.put("userid", time + AdIdManager.RandomNum());
-        map.put("language", Locale.getDefault().getLanguage() + "-" + Locale.getDefault().getCountry());
-        map.put("version", "1.0");
+        map.put("userid", time + MySettings.getInstance().getStringSetting("userId"));
+        map.put("language", Locale.getDefault().getLanguage() + "_" + Locale.getDefault().getCountry());
+        map.put("version", "1.2.0");
         map.put("event", "video_show_card");
         map.put("session", MySettings.getInstance().getIntSetting("session"));
         map.put("ext1", videoId);
@@ -640,9 +638,9 @@ public class VideoFragment extends Fragment implements VideoPagerAdapter.VideoEn
         map.put("attributes", MySettings.getInstance().getStringSetting("attribution"));
         map.put("app", "reelify");
         map.put("timestamp", time);
-        map.put("userid", time + AdIdManager.RandomNum());
-        map.put("language", Locale.getDefault().getLanguage() + "-" + Locale.getDefault().getCountry());
-        map.put("version", "1.0");
+        map.put("userid", time + MySettings.getInstance().getStringSetting("userId"));
+        map.put("language", Locale.getDefault().getLanguage() + "_" + Locale.getDefault().getCountry());
+        map.put("version", "1.2.0");
         map.put("event", "click_apply_start");
         map.put("session", MySettings.getInstance().getIntSetting("session"));
         map.put("ext1", videoId);
@@ -677,9 +675,9 @@ public class VideoFragment extends Fragment implements VideoPagerAdapter.VideoEn
         map.put("attributes", MySettings.getInstance().getStringSetting("attribution"));
         map.put("app", "reelify");
         map.put("timestamp", time);
-        map.put("userid", time + AdIdManager.RandomNum());
-        map.put("language", Locale.getDefault().getLanguage() + "-" + Locale.getDefault().getCountry());
-        map.put("version", "1.0");
+        map.put("userid", time + MySettings.getInstance().getStringSetting("userId"));
+        map.put("language", Locale.getDefault().getLanguage() + "_" + Locale.getDefault().getCountry());
+        map.put("version", "1.2.0");
         map.put("event", "end_show_apply");
         map.put("session", MySettings.getInstance().getIntSetting("session"));
         map.put("ext1", videoId);
@@ -714,9 +712,9 @@ public class VideoFragment extends Fragment implements VideoPagerAdapter.VideoEn
         map.put("attributes", MySettings.getInstance().getStringSetting("attribution"));
         map.put("app", "reelify");
         map.put("timestamp", time);
-        map.put("userid", time + AdIdManager.RandomNum());
-        map.put("language", Locale.getDefault().getLanguage() + "-" + Locale.getDefault().getCountry());
-        map.put("version", "1.0");
+        map.put("userid", time + MySettings.getInstance().getStringSetting("userId"));
+        map.put("language", Locale.getDefault().getLanguage() + "_" + Locale.getDefault().getCountry());
+        map.put("version", "1.2.0");
         map.put("event", "click_apply_end");
         map.put("session", MySettings.getInstance().getIntSetting("session"));
         map.put("ext1", videoId);
@@ -751,9 +749,9 @@ public class VideoFragment extends Fragment implements VideoPagerAdapter.VideoEn
         map.put("attributes", MySettings.getInstance().getStringSetting("attribution"));
         map.put("app", "reelify");
         map.put("timestamp", time);
-        map.put("userid", time + AdIdManager.RandomNum());
-        map.put("language", Locale.getDefault().getLanguage() + "-" + Locale.getDefault().getCountry());
-        map.put("version", "1.0");
+        map.put("userid", time + MySettings.getInstance().getStringSetting("userId"));
+        map.put("language", Locale.getDefault().getLanguage() + "_" + Locale.getDefault().getCountry());
+        map.put("version", "1.2.0");
         map.put("event", "click_apply_icon");
         map.put("session", MySettings.getInstance().getIntSetting("session"));
         map.put("ext1", videoId);
@@ -788,9 +786,9 @@ public class VideoFragment extends Fragment implements VideoPagerAdapter.VideoEn
         map.put("attributes", MySettings.getInstance().getStringSetting("attribution"));
         map.put("app", "reelify");
         map.put("timestamp", time);
-        map.put("userid", time + AdIdManager.RandomNum());
-        map.put("language", Locale.getDefault().getLanguage() + "-" + Locale.getDefault().getCountry());
-        map.put("version", "1.0");
+        map.put("userid", time + MySettings.getInstance().getStringSetting("userId"));
+        map.put("language", Locale.getDefault().getLanguage() + "_" + Locale.getDefault().getCountry());
+        map.put("version", "1.2.0");
         map.put("event", "contact_show_popup");
         map.put("session", MySettings.getInstance().getIntSetting("session"));
         map.put("ext1", videoId);
@@ -825,9 +823,9 @@ public class VideoFragment extends Fragment implements VideoPagerAdapter.VideoEn
         map.put("attributes", MySettings.getInstance().getStringSetting("attribution"));
         map.put("app", "reelify");
         map.put("timestamp", time);
-        map.put("userid", time + AdIdManager.RandomNum());
-        map.put("language", Locale.getDefault().getLanguage() + "-" + Locale.getDefault().getCountry());
-        map.put("version", "1.0");
+        map.put("userid", time + MySettings.getInstance().getStringSetting("userId"));
+        map.put("language", Locale.getDefault().getLanguage() + "_" + Locale.getDefault().getCountry());
+        map.put("version", "1.2.0");
         map.put("event", "click_contact_btn");
         map.put("session", MySettings.getInstance().getIntSetting("session"));
         map.put("ext1", videoId);
@@ -862,9 +860,9 @@ public class VideoFragment extends Fragment implements VideoPagerAdapter.VideoEn
         map.put("attributes", MySettings.getInstance().getStringSetting("attribution"));
         map.put("app", "reelify");
         map.put("timestamp", time);
-        map.put("userid", time + AdIdManager.RandomNum());
-        map.put("language", Locale.getDefault().getLanguage() + "-" + Locale.getDefault().getCountry());
-        map.put("version", "1.0");
+        map.put("userid", time + MySettings.getInstance().getStringSetting("userId"));
+        map.put("language", Locale.getDefault().getLanguage() + "_" + Locale.getDefault().getCountry());
+        map.put("version", "1.2.0");
         map.put("event", "download_tip_show");
         map.put("session", MySettings.getInstance().getIntSetting("session"));
         map.put("ext1", videoId);
@@ -899,9 +897,9 @@ public class VideoFragment extends Fragment implements VideoPagerAdapter.VideoEn
         map.put("attributes", MySettings.getInstance().getStringSetting("attribution"));
         map.put("app", "reelify");
         map.put("timestamp", time);
-        map.put("userid", time + AdIdManager.RandomNum());
-        map.put("language", Locale.getDefault().getLanguage() + "-" + Locale.getDefault().getCountry());
-        map.put("version", "1.0");
+        map.put("userid", time + MySettings.getInstance().getStringSetting("userId"));
+        map.put("language", Locale.getDefault().getLanguage() + "_" + Locale.getDefault().getCountry());
+        map.put("version", "1.2.0");
         map.put("event", "click_download-btn");
         map.put("session", MySettings.getInstance().getIntSetting("session"));
         map.put("ext1", videoId);
@@ -936,9 +934,9 @@ public class VideoFragment extends Fragment implements VideoPagerAdapter.VideoEn
         map.put("attributes", MySettings.getInstance().getStringSetting("attribution"));
         map.put("app", "reelify");
         map.put("timestamp", time);
-        map.put("userid", time + AdIdManager.RandomNum());
-        map.put("language", Locale.getDefault().getLanguage() + "-" + Locale.getDefault().getCountry());
-        map.put("version", "1.0");
+        map.put("userid", time + MySettings.getInstance().getStringSetting("userId"));
+        map.put("language", Locale.getDefault().getLanguage() + "_" + Locale.getDefault().getCountry());
+        map.put("version", "1.2.0");
         map.put("event", "addtocartpv");
         map.put("session", MySettings.getInstance().getIntSetting("session"));
         map.put("ext1", videoId);
@@ -973,9 +971,9 @@ public class VideoFragment extends Fragment implements VideoPagerAdapter.VideoEn
         map.put("attributes", MySettings.getInstance().getStringSetting("attribution"));
         map.put("app", "reelify");
         map.put("timestamp", time);
-        map.put("userid", time + AdIdManager.RandomNum());
-        map.put("language", Locale.getDefault().getLanguage() + "-" + Locale.getDefault().getCountry());
-        map.put("version", "1.0");
+        map.put("userid", time + MySettings.getInstance().getStringSetting("userId"));
+        map.put("language", Locale.getDefault().getLanguage() + "_" + Locale.getDefault().getCountry());
+        map.put("version", "1.2.0");
         map.put("event", "addtocartlt");
         map.put("session", MySettings.getInstance().getIntSetting("session"));
         map.put("ext1", videoId);
@@ -1010,9 +1008,9 @@ public class VideoFragment extends Fragment implements VideoPagerAdapter.VideoEn
         map.put("attributes", MySettings.getInstance().getStringSetting("attribution"));
         map.put("app", "reelify");
         map.put("timestamp", time);
-        map.put("userid", time + AdIdManager.RandomNum());
-        map.put("language", Locale.getDefault().getLanguage() + "-" + Locale.getDefault().getCountry());
-        map.put("version", "1.0");
+        map.put("userid", time + MySettings.getInstance().getStringSetting("userId"));
+        map.put("language", Locale.getDefault().getLanguage() + "_" + Locale.getDefault().getCountry());
+        map.put("version", "1.2.0");
         map.put("event", "videos_show_comments");
         map.put("session", MySettings.getInstance().getIntSetting("session"));
         map.put("ext1", videoId);
@@ -1047,9 +1045,9 @@ public class VideoFragment extends Fragment implements VideoPagerAdapter.VideoEn
         map.put("attributes", MySettings.getInstance().getStringSetting("attribution"));
         map.put("app", "reelify");
         map.put("timestamp", time);
-        map.put("userid", time + AdIdManager.RandomNum());
-        map.put("language", Locale.getDefault().getLanguage() + "-" + Locale.getDefault().getCountry());
-        map.put("version", "1.0");
+        map.put("userid", time + MySettings.getInstance().getStringSetting("userId"));
+        map.put("language", Locale.getDefault().getLanguage() + "_" + Locale.getDefault().getCountry());
+        map.put("version", "1.2.0");
         map.put("event", "addtocart_ws");
         map.put("session", MySettings.getInstance().getIntSetting("session"));
         map.put("ext1", videoId);
@@ -1084,9 +1082,9 @@ public class VideoFragment extends Fragment implements VideoPagerAdapter.VideoEn
         map.put("attributes", MySettings.getInstance().getStringSetting("attribution"));
         map.put("app", "reelify");
         map.put("timestamp", time);
-        map.put("userid", time + AdIdManager.RandomNum());
-        map.put("language", Locale.getDefault().getLanguage() + "-" + Locale.getDefault().getCountry());
-        map.put("version", "1.0");
+        map.put("userid", time + MySettings.getInstance().getStringSetting("userId"));
+        map.put("language", Locale.getDefault().getLanguage() + "_" + Locale.getDefault().getCountry());
+        map.put("version", "1.2.0");
         map.put("event", "addtocart_tg");
         map.put("session", MySettings.getInstance().getIntSetting("session"));
         map.put("ext1", videoId);
@@ -1121,9 +1119,9 @@ public class VideoFragment extends Fragment implements VideoPagerAdapter.VideoEn
         map.put("attributes", MySettings.getInstance().getStringSetting("attribution"));
         map.put("app", "reelify");
         map.put("timestamp", time);
-        map.put("userid", time + AdIdManager.RandomNum());
-        map.put("language", Locale.getDefault().getLanguage() + "-" + Locale.getDefault().getCountry());
-        map.put("version", "1.0");
+        map.put("userid", time + MySettings.getInstance().getStringSetting("userId"));
+        map.put("language", Locale.getDefault().getLanguage() + "_" + Locale.getDefault().getCountry());
+        map.put("version", "1.2.0");
         map.put("event", "addtocart_ok");
         map.put("session", MySettings.getInstance().getIntSetting("session"));
         map.put("ext1", videoId);
@@ -1159,9 +1157,9 @@ public class VideoFragment extends Fragment implements VideoPagerAdapter.VideoEn
         map.put("app", "reelify");
         map.put("timestamp", time);
         map.put("id", id);
-        map.put("userid", time + AdIdManager.RandomNum());
-        map.put("language", Locale.getDefault().getLanguage() + "-" + Locale.getDefault().getCountry());
-        map.put("version", "1.0");
+        map.put("userid", time + MySettings.getInstance().getStringSetting("userId"));
+        map.put("language", Locale.getDefault().getLanguage() + "_" + Locale.getDefault().getCountry());
+        map.put("version", "1.2.0");
         map.put("event", "contact_lva");
         map.put("session", MySettings.getInstance().getIntSetting("session"));
         map.put("ext1", videoId);

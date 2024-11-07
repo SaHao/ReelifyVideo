@@ -33,8 +33,9 @@
         android:layout_alignParentRight="true"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:padding="15dp"
-        android:src="@drawable/icon" />
+        android:scaleType="fitXY"
+        android:padding="10dp"
+        android:src="@drawable/ads" />
     <LinearLayout
         android:layout_above="@+id/bottom_view"
         android:layout_width="wrap_content"
@@ -180,4 +181,13 @@
         android:src="@drawable/pause"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
+    <FrameLayout
+        android:background="@drawable/gradient_bg_black_to_transparent"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"/>
+    <FrameLayout
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/gradient_bg_transparent_to_black"
+        android:layout_width="match_parent"
+        android:layout_height="65dp"/>
 </RelativeLayout>

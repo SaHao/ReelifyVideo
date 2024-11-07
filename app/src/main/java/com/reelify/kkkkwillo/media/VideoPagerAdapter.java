@@ -67,7 +67,6 @@ public class VideoPagerAdapter extends RecyclerView.Adapter<VideoPagerAdapter.Vi
         holder.dis.setText(dataList.get(position).getDesc());
         holder.likeNum.setText(dataList.get(position).getFavorite());
         holder.typeC.setText(CONFIG_INFO.getData().getAction().getApplyC());
-        holder.pause.setVisibility(View.GONE);
         if (dataList.get(position).getType().equalsIgnoreCase("C")) {
             if (dataList.get(position).getContacts().getType().contains("ws")) {
                 holder.kefu.setImageResource(R.drawable.btn_whatsapp_off);
@@ -163,11 +162,6 @@ public class VideoPagerAdapter extends RecyclerView.Adapter<VideoPagerAdapter.Vi
                         holder.timeBar.setMax((int) exoPlayer.getDuration());
                         holder.updateSeekBar();
                     }
-                    if (playbackState == Player.STATE_READY && exoPlayer.isPlaying()) {
-                        holder.pause.setVisibility(View.GONE);
-                    } else {
-                        holder.pause.setVisibility(View.GONE);
-                    }
                 }
             });
             holder.playerView.setOnTouchListener(new View.OnTouchListener() {
@@ -182,7 +176,7 @@ public class VideoPagerAdapter extends RecyclerView.Adapter<VideoPagerAdapter.Vi
                         if (upTime - downTime < 200) {
                             if (exoPlayer.isPlaying()) {
                                 exoPlayer.pause();
-                                holder.pause.setVisibility(View.VISIBLE);
+//                                holder.pause.setVisibility(View.VISIBLE);
                             } else {
                                 exoPlayer.play();
                                 holder.pause.setVisibility(View.GONE);

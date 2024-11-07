@@ -73,6 +73,7 @@ public class WelcomeAc extends AppCompatActivity {
                 mHandler.sendEmptyMessageDelayed(1, 400);
             } else {
                 mHandler.removeCallbacks(mRunnable);
+                postEvent();
                 getConfig();
             }
 
@@ -88,19 +89,16 @@ public class WelcomeAc extends AppCompatActivity {
         window.setStatusBarColor(Color.TRANSPARENT);
         window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN//状态栏不会被隐藏但activity布局会扩展到状态栏所在位置
                 | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
-        if (MySettings.getInstance().getStringSetting("name").isEmpty()){
-            MySettings.getInstance().saveSetting("name", AdIdManager.RandomLetter());
-        }
-        postEvent();
         mHandler.sendEmptyMessageDelayed(1, 200);
     }
 
     void getConfig() {
         Map<String, Object> map = new HashMap<>();
         map.put("gaid", MySettings.getInstance().getStringSetting("gaid"));
-
         map.put("attributes", MySettings.getInstance().getStringSetting("attribution"));
-
+//        map.put("gaid", "00000000-0000-0000-0000-000000000000");
+//        map.put("attributes","tt:1176xgf3 tn:Unattributed net:Unattributed cam: adg: cre: cl: adid:29724ee9795a3c87920b05ba5a763155 ct: ca:NaN cc: fir:");
+//
         map.put("app", "reelify");
         String json = new Gson().toJson(map);
         MediaType mediaType = MediaType.parse("application/json");
@@ -131,9 +129,9 @@ public class WelcomeAc extends AppCompatActivity {
     void getList() {
         Map<String, Object> map = new HashMap<>();
         map.put("gaid", MySettings.getInstance().getStringSetting("gaid"));
-
         map.put("attributes", MySettings.getInstance().getStringSetting("attribution"));
-
+//        map.put("gaid", "00000000-0000-0000-0000-000000000000");
+//        map.put("attributes","tt:1176xgf3 tn:Unattributed net:Unattributed cam: adg: cre: cl: adid:29724ee9795a3c87920b05ba5a763155 ct: ca:NaN cc: fir:");
         map.put("app", "reelify");
         String json = new Gson().toJson(map);
         MediaType mediaType = MediaType.parse("application/json");
@@ -169,14 +167,13 @@ public class WelcomeAc extends AppCompatActivity {
         Adjust.trackEvent(adjustEvent);
         START_TIME=System.currentTimeMillis();
         Map<String, Object> map = new HashMap<>();
-        map.put("gaid", MySettings.getInstance().getStringSetting("gaid"));
         map.put("attributes", MySettings.getInstance().getStringSetting("attribution"));
+        map.put("gaid", MySettings.getInstance().getStringSetting("gaid"));
         map.put("app", "reelify");
         map.put("timestamp", START_TIME);
-        map.put("userid", START_TIME+AdIdManager.RandomNum());
-        map.put("language", Locale.getDefault().getLanguage()+"-"+Locale.getDefault().getCountry());
-        map.put("version", "1.0");
-        map.put("id", 0);
+        map.put("userid", START_TIME+MySettings.getInstance().getStringSetting("userId"));
+        map.put("language", Locale.getDefault().getLanguage()+"_"+Locale.getDefault().getCountry());
+        map.put("version", "1.2.0");
         map.put("event", "app_show_app");
         map.put("session", MySettings.getInstance().getIntSetting("session"));
         map.put("ext1", "");

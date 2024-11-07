@@ -21,9 +21,12 @@ import com.google.android.exoplayer2.database.ExoDatabaseProvider;
 import com.google.android.exoplayer2.upstream.cache.Cache;
 import com.google.android.exoplayer2.upstream.cache.LeastRecentlyUsedCacheEvictor;
 import com.google.android.exoplayer2.upstream.cache.SimpleCache;
+import com.reelify.kkkkwillo.utils.AdIdManager;
 import com.reelify.kkkkwillo.utils.MySettings;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class MainApp extends Application {
@@ -42,6 +45,17 @@ public class MainApp extends Application {
         LeastRecentlyUsedCacheEvictor evictor = new LeastRecentlyUsedCacheEvictor(700 * 1024 * 1024);
         cache = new SimpleCache(new File(getCacheDir(), "media"), evictor);
         MySettings.getInstance().saveSetting("session", MySettings.getInstance().getIntSetting("session") + 1);
+        if ( MySettings.getInstance().getStringSetting("idList").isEmpty()){
+            List<String> idList=new ArrayList<>();
+            idList.add("-1");
+            MySettings.getInstance().saveSetting("idList",idList);
+        }
+        if (MySettings.getInstance().getStringSetting("name").isEmpty()){
+            MySettings.getInstance().saveSetting("name", AdIdManager.RandomLetter());
+        }
+        if (MySettings.getInstance().getStringSetting("userId").isEmpty()){
+            MySettings.getInstance().saveSetting("userId", AdIdManager.RandomNum());
+        }
     }
 
     @Override
