@@ -42,12 +42,21 @@ public class ListInfo implements Serializable {
         public String avatar;
         public String desc;
         public String favorite;
+        public String picbgm;
         public String name;
         public String type;
         public Comment comment;
         public End end;
         public Contacts contacts;
         public List<Sources> sources;
+
+        public String getPicbgm() {
+            return picbgm;
+        }
+
+        public void setPicbgm(String picbgm) {
+            this.picbgm = picbgm;
+        }
 
         public boolean isAds() {
             return ads;

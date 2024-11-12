@@ -48,6 +48,7 @@ public class VideoPagerAdapter extends RecyclerView.Adapter<VideoPagerAdapter.Vi
     private long downTime;
     private boolean firstShow;
     private boolean firstShowC;
+    private  ImageAdapter viewPagerAdapter;
     public VideoPagerAdapter(Context context, VideoEndListener videoEndListener) {
         this.context = context;
         this.videoEndListener = videoEndListener;
@@ -207,7 +208,7 @@ public class VideoPagerAdapter extends RecyclerView.Adapter<VideoPagerAdapter.Vi
                 holder.recyclerView.setVisibility(View.VISIBLE);
                 holder.playerView.setVisibility(View.GONE);
                 holder.timeBar.setVisibility(View.GONE);
-                ImageAdapter viewPagerAdapter = new ImageAdapter(context, dataList.get(position).getSources());
+                viewPagerAdapter = new ImageAdapter(context, dataList.get(position).getSources());
                 holder.recyclerView.setAdapter(viewPagerAdapter);
                 holder.recyclerView.setOffscreenPageLimit(3);
                 final int scrollDelay = 3000;
@@ -222,6 +223,9 @@ public class VideoPagerAdapter extends RecyclerView.Adapter<VideoPagerAdapter.Vi
                         holder.recyclerView.postDelayed(this, scrollDelay);
                     }
                 });
+//                if (dataList.get(position).getPicbgm()!=null&&!dataList.get(position).getPicbgm().isEmpty()){
+//                    viewPagerAdapter.playAudio(dataList.get(position).getPicbgm());
+//                }
             }
 
     }
@@ -242,6 +246,10 @@ public class VideoPagerAdapter extends RecyclerView.Adapter<VideoPagerAdapter.Vi
             holder.exoPlayer.release();  // 释放资源
             holder.exoPlayer = null;
         }
+//        if (viewPagerAdapter != null) {
+//            viewPagerAdapter.release();  // 释放资源
+//            viewPagerAdapter= null;
+//        }
     }
 
     @SuppressLint("NotifyDataSetChanged")

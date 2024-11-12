@@ -1,6 +1,7 @@
 package com.reelify.kkkkwillo.media;
 
 import android.content.Context;
+import android.media.MediaPlayer;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,13 +14,16 @@ import com.bumptech.glide.Glide;
 import com.reelify.kkkkwillo.R;
 import com.reelify.kkkkwillo.bean.ListInfo;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHolder> {
 
-    private List<ListInfo.Sources> data=new ArrayList<>();
+    private List<ListInfo.Sources> data = new ArrayList<>();
     private Context context;
+
+    private MediaPlayer mediaPlayer;
 
     public ImageAdapter(Context context, List<ListInfo.Sources> data) {
         this.context = context;
@@ -51,6 +55,27 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
         ImageViewHolder(View itemView) {
             super(itemView);
             imageView = itemView.findViewById(R.id.image_view);
+        }
+    }
+
+    public void playAudio(String audioUrl) {
+        mediaPlayer = new MediaPlayer();
+        try {
+            mediaPlayer.setDataSource(audioUrl);
+            mediaPlayer.prepareAsync();
+            mediaPlayer.setOnPreparedListener(mp->{
+                mediaPlayer.setLooping(true); // 启用循环播放
+                mediaPlayer.start(); // 准备完成后自动开始播放
+            });
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    public void release() {
+        if (mediaPlayer != null) {
+            mediaPlayer.release();
+            mediaPlayer = null;
         }
     }
 }

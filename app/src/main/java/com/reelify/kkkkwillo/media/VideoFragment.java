@@ -346,6 +346,7 @@ public class VideoFragment extends Fragment implements VideoPagerAdapter.VideoEn
             if (type.contains("ws")) {
                 if (isAppInstalled("com.whatsapp")) {
                     Intent intentws = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                    intentws.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     requireContext().startActivity(intentws);
                     postInvokeAll(listInfo.getData().getVideos().get(position).getId() + "");
                     postInvokeWs(listInfo.getData().getVideos().get(position).getId() + "");
@@ -386,6 +387,7 @@ public class VideoFragment extends Fragment implements VideoPagerAdapter.VideoEn
             } else if (type.contains("tg")) {
                 if (isAppInstalled("org.telegram.messenger") || isAppInstalled("org.telegram.messenger.web")) {
                     Intent intentws = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                    intentws.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     requireContext().startActivity(intentws);
                     postInvokeTg(listInfo.getData().getVideos().get(position).getId() + "");
                     postInvokeAll(listInfo.getData().getVideos().get(position).getId() + "");

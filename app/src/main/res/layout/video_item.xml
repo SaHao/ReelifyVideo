@@ -23,12 +23,13 @@
 
     <ImageView
         android:id="@+id/logo"
-        android:layout_width="90dp"
+        android:layout_width="100dp"
         android:layout_marginLeft="14dp"
-        android:layout_marginTop="15dp"
-        android:layout_height="30dp"
+        android:layout_marginTop="20dp"
+        android:layout_height="50dp"
         android:src="@drawable/logo" />
     <ImageView
+        android:layout_marginTop="20dp"
         android:id="@+id/ads"
         android:layout_alignParentRight="true"
         android:layout_width="50dp"
@@ -153,7 +154,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="15dp"
-            android:textColor="@android:color/black"
+            android:textColor="@android:color/white"
             android:textSize="14sp"
             tools:text="斤斤计较进来撒动静分离凯撒金是刷卡机 " />
 
@@ -186,10 +187,10 @@
     <FrameLayout
         android:background="@drawable/gradient_bg_black_to_transparent"
         android:layout_width="match_parent"
-        android:layout_height="50dp"/>
+        android:layout_height="70dp"/>
     <FrameLayout
         android:layout_alignParentBottom="true"
         android:background="@drawable/gradient_bg_transparent_to_black"
         android:layout_width="match_parent"
-        android:layout_height="65dp"/>
+        android:layout_height="70dp"/>
 </RelativeLayout>
