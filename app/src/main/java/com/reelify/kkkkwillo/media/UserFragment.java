@@ -95,7 +95,7 @@ public class UserFragment extends Fragment {
         map.put("attributes", MySettings.getInstance().getStringSetting("attribution"));
         map.put("app", "reelify");
         map.put("timestamp", time);
-        map.put("userid", time + MySettings.getInstance().getStringSetting("userId"));
+        map.put("userid", MySettings.getInstance().getStringSetting("userId"));
         map.put("language", Locale.getDefault().getLanguage()+"_"+Locale.getDefault().getCountry());
         map.put("version", "1.2.0");
         map.put("event", "videos_show_profil");

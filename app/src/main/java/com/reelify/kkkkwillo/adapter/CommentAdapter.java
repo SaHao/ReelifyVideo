@@ -1,7 +1,10 @@
 package com.reelify.kkkkwillo.adapter;
 
+import static com.reelify.kkkkwillo.media.VideoFragment.CONFIG_INFO;
+
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -77,6 +80,11 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
             tvName = itemView.findViewById(R.id.Nickname);
             tvTime = itemView.findViewById(R.id.Time);
             imgAvatar = itemView.findViewById(R.id.avatar);
+
+            if (CONFIG_INFO.data.rtl){
+                tvComment.setGravity(Gravity.RIGHT);
+                tvComment.setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
+            }
         }
 
     }

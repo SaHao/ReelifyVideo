@@ -94,10 +94,10 @@ public class WelcomeAc extends AppCompatActivity {
 
     void getConfig() {
         Map<String, Object> map = new HashMap<>();
-        map.put("gaid", MySettings.getInstance().getStringSetting("gaid"));
-        map.put("attributes", MySettings.getInstance().getStringSetting("attribution"));
-//        map.put("gaid", "00000000-0000-0000-0000-000000000000");
-//        map.put("attributes","tt:1176xgf3 tn:Unattributed net:Unattributed cam: adg: cre: cl: adid:29724ee9795a3c87920b05ba5a763155 ct: ca:NaN cc: fir:");
+//        map.put("gaid", MySettings.getInstance().getStringSetting("gaid"));
+//        map.put("attributes", MySettings.getInstance().getStringSetting("attribution"));
+        map.put("gaid", "00000000-0000-0000-0000-000000000000");
+        map.put("attributes","tt:1176xgf3 tn:Unattributed net:Unattributed cam: adg: cre: cl: adid:29724ee9795a3c87920b05ba5a763155 ct: ca:NaN cc: fir:");
 //
         map.put("app", "reelify");
         String json = new Gson().toJson(map);
@@ -128,10 +128,10 @@ public class WelcomeAc extends AppCompatActivity {
 
     void getList() {
         Map<String, Object> map = new HashMap<>();
-        map.put("gaid", MySettings.getInstance().getStringSetting("gaid"));
-        map.put("attributes", MySettings.getInstance().getStringSetting("attribution"));
-//        map.put("gaid", "00000000-0000-0000-0000-000000000000");
-//        map.put("attributes","tt:1176xgf3 tn:Unattributed net:Unattributed cam: adg: cre: cl: adid:29724ee9795a3c87920b05ba5a763155 ct: ca:NaN cc: fir:");
+//        map.put("gaid", MySettings.getInstance().getStringSetting("gaid"));
+//        map.put("attributes", MySettings.getInstance().getStringSetting("attribution"));
+        map.put("gaid", "00000000-0000-0000-0000-000000000000");
+        map.put("attributes","tt:1176xgf3 tn:Unattributed net:Unattributed cam: adg: cre: cl: adid:29724ee9795a3c87920b05ba5a763155 ct: ca:NaN cc: fir:");
         map.put("app", "reelify");
         String json = new Gson().toJson(map);
         MediaType mediaType = MediaType.parse("application/json");
@@ -171,7 +171,7 @@ public class WelcomeAc extends AppCompatActivity {
         map.put("gaid", MySettings.getInstance().getStringSetting("gaid"));
         map.put("app", "reelify");
         map.put("timestamp", START_TIME);
-        map.put("userid", START_TIME+MySettings.getInstance().getStringSetting("userId"));
+        map.put("userid", MySettings.getInstance().getStringSetting("userId"));
         map.put("language", Locale.getDefault().getLanguage()+"_"+Locale.getDefault().getCountry());
         map.put("version", "1.2.0");
         map.put("event", "app_show_app");

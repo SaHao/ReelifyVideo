@@ -5,11 +5,13 @@ import static com.reelify.kkkkwillo.media.VideoFragment.CONFIG_INFO;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.net.Uri;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -46,7 +48,6 @@ public class VideoPagerAdapter extends RecyclerView.Adapter<VideoPagerAdapter.Vi
     private long downTime;
     private boolean firstShow;
     private boolean firstShowC;
-
     public VideoPagerAdapter(Context context, VideoEndListener videoEndListener) {
         this.context = context;
         this.videoEndListener = videoEndListener;
@@ -61,173 +62,167 @@ public class VideoPagerAdapter extends RecyclerView.Adapter<VideoPagerAdapter.Vi
 
     @Override
     public void onBindViewHolder(@NonNull VideoViewHolder holder, @SuppressLint("RecyclerView") int position) {
-        videoEndListener.showVideo(position);
-        holder.chatNum.setText(dataList.get(position).getComment().getComments().size() + "");
-        holder.name.setText(dataList.get(position).getName());
-        holder.dis.setText(dataList.get(position).getDesc());
-        holder.likeNum.setText(dataList.get(position).getFavorite());
-        holder.typeC.setText(CONFIG_INFO.getData().getAction().getApplyC());
-        if (dataList.get(position).getType().equalsIgnoreCase("C")) {
-            if (dataList.get(position).getContacts().getType().contains("ws")) {
-                holder.kefu.setImageResource(R.drawable.btn_whatsapp_off);
-            } else if (dataList.get(position).getContacts().getType().contains("tg")) {
-                holder.kefu.setImageResource(R.drawable.btn_telegarm_off);
-            } else {
-                holder.kefu.setImageResource(R.drawable.btn_link_off);
-            }
-            holder.typeC.setVisibility(View.VISIBLE);
-            holder.kefu.setVisibility(View.VISIBLE);
-        } else {
-            holder.typeC.setVisibility(View.GONE);
-            holder.kefu.setVisibility(View.GONE);
-        }
-
-        if (dataList.get(position).ads) {
-            holder.ads.setVisibility(View.VISIBLE);
-        } else {
-            holder.ads.setVisibility(View.GONE);
-        }
-        Glide.with(context)
-                .load(dataList.get(position).getAvatar())
-                .placeholder(R.drawable.btn_user_off)
-                .error(R.drawable.icon_avatar)
-                .into(holder.avatar);
-        holder.like.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (isLike) {
-                    holder.like.setImageResource(R.drawable.btn_heart_off);
-                    isLike = false;
+            holder.chatNum.setText(dataList.get(position).getComment().getComments().size() + "");
+            holder.name.setText(dataList.get(position).getName());
+            holder.dis.setText(dataList.get(position).getDesc());
+            holder.likeNum.setText(dataList.get(position).getFavorite());
+            holder.typeC.setText(CONFIG_INFO.getData().getAction().getApplyC());
+            if (dataList.get(position).getType().equalsIgnoreCase("C")) {
+                if (dataList.get(position).getContacts().getType().contains("ws")) {
+                    holder.kefu.setImageResource(R.drawable.btn_whatsapp_off);
+                } else if (dataList.get(position).getContacts().getType().contains("tg")) {
+                    holder.kefu.setImageResource(R.drawable.btn_telegarm_off);
                 } else {
-                    holder.like.setImageResource(R.drawable.btn_heart_down);
-                    isLike = true;
+                    holder.kefu.setImageResource(R.drawable.btn_link_off);
                 }
+                holder.typeC.setVisibility(View.VISIBLE);
+                holder.kefu.setVisibility(View.VISIBLE);
+            } else {
+                holder.typeC.setVisibility(View.GONE);
+                holder.kefu.setVisibility(View.GONE);
             }
-        });
-        holder.chat.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                videoEndListener.showComment(position, holder.chatNum);
+
+            if (dataList.get(position).ads) {
+                holder.ads.setVisibility(View.VISIBLE);
+            } else {
+                holder.ads.setVisibility(View.GONE);
             }
-        });
-        holder.kefu.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                videoEndListener.showService(position);
-            }
-        });
-        holder.typeC.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                videoEndListener.clickButtonC(position);
-            }
-        });
-        if (!firstShow){
-            videoEndListener.firstShow(position);
-            firstShow=true;
-        }
-        if (!firstShowC&&dataList.get(position).getType().equalsIgnoreCase("C")){
-            videoEndListener.firstShowC(position);
-            firstShowC=true;
-        }
-        if (dataList.get(position).getSources().get(0).getType().contains("mp4")) {
-            String videoUrl = dataList.get(position).getSources().get(0).getSrc();
-            holder.recyclerView.setVisibility(View.GONE);
-            holder.playerView.setVisibility(View.VISIBLE);
-            holder.timeBar.setVisibility(View.VISIBLE);
-
-            DefaultRenderersFactory renderersFactory = new DefaultRenderersFactory(context)
-                    .setEnableDecoderFallback(true)
-                    .setExtensionRendererMode(DefaultRenderersFactory.EXTENSION_RENDERER_MODE_PREFER);
-            ExoPlayer exoPlayer = new ExoPlayer.Builder(context).build();
-            holder.playerView.setPlayer(exoPlayer);
-            DefaultDataSource.Factory dataSourceFactory = new DefaultDataSource.Factory(context);
-            CacheDataSource.Factory cacheDataSourceFactory = new CacheDataSource.Factory()
-                    .setCache(MainApp.getCache())  // 使用全局缓存实例
-                    .setUpstreamDataSourceFactory(dataSourceFactory)
-                    .setFlags(CacheDataSource.FLAG_IGNORE_CACHE_ON_ERROR);
-            MediaItem mediaItem = MediaItem.fromUri(Uri.parse(videoUrl));
-            exoPlayer.setMediaItem(mediaItem);
-            exoPlayer.setMediaSource(new ProgressiveMediaSource.Factory(cacheDataSourceFactory).createMediaSource(mediaItem));
-            exoPlayer.prepare();
-            exoPlayer.setRepeatMode(Player.REPEAT_MODE_OFF);
-            exoPlayer.addListener(new Player.Listener() {
+            Glide.with(context)
+                    .load(dataList.get(position).getAvatar())
+                    .placeholder(R.drawable.btn_user_off)
+                    .error(R.drawable.icon_avatar)
+                    .into(holder.avatar);
+            holder.like.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onPlaybackStateChanged(int playbackState) {
-
-                    if (playbackState == Player.STATE_ENDED) {
-                        videoEndListener.onVideoEnd(position);
-                    }
-                    if (playbackState == ExoPlayer.STATE_READY) {
-                        holder.timeBar.setMax((int) exoPlayer.getDuration());
-                        holder.updateSeekBar();
-                    }
-                }
-            });
-            holder.playerView.setOnTouchListener(new View.OnTouchListener() {
-                @SuppressLint("ClickableViewAccessibility")
-                @Override
-                public boolean onTouch(View v, MotionEvent event) {
-                    if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                        downTime = System.currentTimeMillis();
-                        return true;
-                    } else if (event.getAction() == MotionEvent.ACTION_UP) {
-                        long upTime = System.currentTimeMillis();
-                        if (upTime - downTime < 200) {
-                            if (exoPlayer.isPlaying()) {
-                                exoPlayer.pause();
-//                                holder.pause.setVisibility(View.VISIBLE);
-                            } else {
-                                exoPlayer.play();
-                                holder.pause.setVisibility(View.GONE);
-                            }
-                        }
-
-                    }
-                    return false;
-                }
-            });
-            holder.timeBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-                @Override
-                public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                    if (fromUser) {
-                        exoPlayer.seekTo(progress);
-                    }
-                }
-
-                @Override
-                public void onStartTrackingTouch(SeekBar seekBar) {
-                    exoPlayer.pause();
-                }
-
-                @Override
-                public void onStopTrackingTouch(SeekBar seekBar) {
-                    exoPlayer.setPlayWhenReady(true);
-                }
-            });
-            // 保存ExoPlayer实例
-            holder.exoPlayer = exoPlayer;
-        } else {
-            holder.recyclerView.setVisibility(View.VISIBLE);
-            holder.playerView.setVisibility(View.GONE);
-            holder.timeBar.setVisibility(View.GONE);
-            ImageAdapter viewPagerAdapter = new ImageAdapter(context, dataList.get(position).getSources());
-            holder.recyclerView.setAdapter(viewPagerAdapter);
-            holder.recyclerView.setOffscreenPageLimit(3);
-            final int scrollDelay = 3000;
-            holder.recyclerView.post(new Runnable() {
-                @Override
-                public void run() {
-                    if (holder.recyclerView.getCurrentItem() == holder.recyclerView.getAdapter().getItemCount() - 1) {
-                        holder.recyclerView.setCurrentItem(0, false);
+                public void onClick(View v) {
+                    if (isLike) {
+                        holder.like.setImageResource(R.drawable.btn_heart_off);
+                        isLike = false;
                     } else {
-                        holder.recyclerView.setCurrentItem(holder.recyclerView.getCurrentItem() + 1, true);
+                        holder.like.setImageResource(R.drawable.btn_heart_down);
+                        isLike = true;
                     }
-                    holder.recyclerView.postDelayed(this, scrollDelay);
                 }
             });
-        }
+            holder.chat.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    videoEndListener.showComment(position, holder.chatNum);
+                }
+            });
+            holder.kefu.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    videoEndListener.showService(position);
+                }
+            });
+            holder.typeC.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    videoEndListener.clickButtonC(position);
+                }
+            });
+            if (!firstShow){
+                videoEndListener.firstShow(position);
+                firstShow=true;
+            }
+            if (!firstShowC&&dataList.get(position).getType().equalsIgnoreCase("C")){
+                videoEndListener.firstShowC(position);
+                firstShowC=true;
+            }
+            if (dataList.get(position).getSources().get(0).getType().contains("mp4")) {
+                String videoUrl = dataList.get(position).getSources().get(0).getSrc();
+                holder.recyclerView.setVisibility(View.GONE);
+                holder.playerView.setVisibility(View.VISIBLE);
+                holder.timeBar.setVisibility(View.VISIBLE);
 
+                ExoPlayer exoPlayer = new ExoPlayer.Builder(context).build();
+                holder.playerView.setPlayer(exoPlayer);
+                DefaultDataSource.Factory dataSourceFactory = new DefaultDataSource.Factory(context);
+                CacheDataSource.Factory cacheDataSourceFactory = new CacheDataSource.Factory()
+                        .setCache(MainApp.getCache())  // 使用全局缓存实例
+                        .setUpstreamDataSourceFactory(dataSourceFactory)
+                        .setFlags(CacheDataSource.FLAG_IGNORE_CACHE_ON_ERROR);
+                MediaItem mediaItem = MediaItem.fromUri(Uri.parse(videoUrl));
+                exoPlayer.setMediaItem(mediaItem);
+                exoPlayer.setMediaSource(new ProgressiveMediaSource.Factory(cacheDataSourceFactory).createMediaSource(mediaItem));
+                exoPlayer.prepare();
+                exoPlayer.setRepeatMode(Player.REPEAT_MODE_OFF);
+                exoPlayer.addListener(new Player.Listener() {
+                    @Override
+                    public void onPlaybackStateChanged(int playbackState) {
+
+                        if (playbackState == Player.STATE_ENDED) {
+                            videoEndListener.onVideoEnd(position);
+                        }
+                        if (playbackState == ExoPlayer.STATE_READY) {
+                            holder.timeBar.setMax((int) exoPlayer.getDuration());
+                            holder.updateSeekBar();
+                        }
+                    }
+                });
+                holder.playerView.setOnTouchListener(new View.OnTouchListener() {
+                    @SuppressLint("ClickableViewAccessibility")
+                    @Override
+                    public boolean onTouch(View v, MotionEvent event) {
+                        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                            downTime = System.currentTimeMillis();
+                            return true;
+                        } else if (event.getAction() == MotionEvent.ACTION_UP) {
+                            long upTime = System.currentTimeMillis();
+                            if (upTime - downTime < 200) {
+                                if (exoPlayer.isPlaying()) {
+                                    exoPlayer.pause();
+//                                holder.pause.setVisibility(View.VISIBLE);
+                                } else {
+                                    exoPlayer.play();
+                                    holder.pause.setVisibility(View.GONE);
+                                }
+                            }
+
+                        }
+                        return false;
+                    }
+                });
+                holder.timeBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+                    @Override
+                    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                        if (fromUser) {
+                            exoPlayer.seekTo(progress);
+                        }
+                    }
+
+                    @Override
+                    public void onStartTrackingTouch(SeekBar seekBar) {
+                        exoPlayer.pause();
+                    }
+
+                    @Override
+                    public void onStopTrackingTouch(SeekBar seekBar) {
+                        exoPlayer.setPlayWhenReady(true);
+                    }
+                });
+                holder.exoPlayer = exoPlayer;
+            } else {
+                holder.recyclerView.setVisibility(View.VISIBLE);
+                holder.playerView.setVisibility(View.GONE);
+                holder.timeBar.setVisibility(View.GONE);
+                ImageAdapter viewPagerAdapter = new ImageAdapter(context, dataList.get(position).getSources());
+                holder.recyclerView.setAdapter(viewPagerAdapter);
+                holder.recyclerView.setOffscreenPageLimit(3);
+                final int scrollDelay = 3000;
+                holder.recyclerView.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (holder.recyclerView.getCurrentItem() == holder.recyclerView.getAdapter().getItemCount() - 1) {
+                            holder.recyclerView.setCurrentItem(0, false);
+                        } else {
+                            holder.recyclerView.setCurrentItem(holder.recyclerView.getCurrentItem() + 1, true);
+                        }
+                        holder.recyclerView.postDelayed(this, scrollDelay);
+                    }
+                });
+            }
 
     }
 
@@ -236,7 +231,10 @@ public class VideoPagerAdapter extends RecyclerView.Adapter<VideoPagerAdapter.Vi
         return dataList.size();
 //        return dataList.size();
     }
-
+    @Override
+    public int getItemViewType(int position) {
+        return position;
+    }
     @Override
     public void onViewRecycled(@NonNull VideoViewHolder holder) {
         super.onViewRecycled(holder);
@@ -255,7 +253,7 @@ public class VideoPagerAdapter extends RecyclerView.Adapter<VideoPagerAdapter.Vi
         notifyDataSetChanged();
     }
 
-    static class VideoViewHolder extends RecyclerView.ViewHolder {
+    public  static class VideoViewHolder extends RecyclerView.ViewHolder {
         StyledPlayerView playerView;
         SeekBar timeBar;
         ExoPlayer exoPlayer;
@@ -290,6 +288,10 @@ public class VideoPagerAdapter extends RecyclerView.Adapter<VideoPagerAdapter.Vi
             timeBar = itemView.findViewById(R.id.time_bar);
             recyclerView = itemView.findViewById(R.id.myRcv);
             pause = itemView.findViewById(R.id.pause_img);
+            if (CONFIG_INFO.data.rtl){
+                dis.setGravity(Gravity.RIGHT);
+                dis.setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
+            }
         }
 
         private void updateSeekBar() {
@@ -311,8 +313,6 @@ public class VideoPagerAdapter extends RecyclerView.Adapter<VideoPagerAdapter.Vi
         void firstShow(int position);
 
         void firstShowC(int position);
-
-        void showVideo(int position);
 
         void clickButtonC(int position);
 

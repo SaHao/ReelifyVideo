@@ -54,7 +54,7 @@ public class MainApp extends Application {
             MySettings.getInstance().saveSetting("name", AdIdManager.RandomLetter());
         }
         if (MySettings.getInstance().getStringSetting("userId").isEmpty()){
-            MySettings.getInstance().saveSetting("userId", AdIdManager.RandomNum());
+            MySettings.getInstance().saveSetting("userId", System.currentTimeMillis()+AdIdManager.RandomNum());
         }
     }
 

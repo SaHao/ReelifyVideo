@@ -1,7 +1,6 @@
 package com.reelify.kkkkwillo.net.request;
 
 
-
 import android.util.Log;
 
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
@@ -16,7 +15,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 
 public class RetrofitManager {
-    private static RetrofitManager retrofitManager = null;
     OkHttpClient okHttpClient = null;
 
     private RetrofitManager() {
@@ -24,8 +22,12 @@ public class RetrofitManager {
     }
 
     public static RetrofitManager getRetrofitManager() {
-        if (null == retrofitManager) retrofitManager = new RetrofitManager();
-        return retrofitManager;
+        return retrofitManagerHolder.INSTANCE;
+    }
+
+    private static final class retrofitManagerHolder {
+        private static final RetrofitManager INSTANCE = new RetrofitManager();
+
     }
 
     private void initOkhttp() {

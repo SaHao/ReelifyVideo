@@ -53,13 +53,13 @@ public class DialogB extends Dialog {
         params.leftMargin = 40;
         params.rightMargin = 40;
         if (CONFIG_INFO.data.rtl){
-            txt1.setLayoutParams(params);
-            txt2.setLayoutParams(params);
-            txt3.setLayoutParams(params);
-
             txt1.setGravity(Gravity.RIGHT);
             txt2.setGravity(Gravity.RIGHT);
             txt3.setGravity(Gravity.RIGHT);
+
+            txt1.setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
+            txt2.setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
+            txt3.setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
         }
     }
 

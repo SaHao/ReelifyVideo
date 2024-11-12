@@ -35,7 +35,6 @@ public class DialogC extends Dialog {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.dialog_c);
-        setCanceledOnTouchOutside(false);
         initView();
         initData();
 
@@ -53,8 +52,8 @@ public class DialogC extends Dialog {
         params.leftMargin = 40;
         params.rightMargin = 40;
         if (CONFIG_INFO.data.rtl){
-            txt3.setLayoutParams(params);
             txt3.setGravity(Gravity.RIGHT);
+            txt3.setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
         }
         buttonTxt.setOnClickListener(new View.OnClickListener() {
             @Override

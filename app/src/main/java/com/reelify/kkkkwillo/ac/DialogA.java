@@ -46,22 +46,14 @@ public class DialogA extends Dialog {
         txt1 = (TextView) findViewById(R.id.txt_wen1);
         txt2 = (TextView) findViewById(R.id.txt_wen2);
         txt3 = (TextView) findViewById(R.id.txt_wen3);
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.WRAP_CONTENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT
-        );
-        params.gravity = Gravity.RIGHT;
-        params.topMargin = 50;
-        params.leftMargin = 40;
-        params.rightMargin = 40;
         if (CONFIG_INFO.data.rtl){
-            txt1.setLayoutParams(params);
-            txt2.setLayoutParams(params);
-            txt3.setLayoutParams(params);
-
             txt1.setGravity(Gravity.RIGHT);
             txt2.setGravity(Gravity.RIGHT);
             txt3.setGravity(Gravity.RIGHT);
+
+            txt1.setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
+            txt2.setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
+            txt3.setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
         }
     }
 
