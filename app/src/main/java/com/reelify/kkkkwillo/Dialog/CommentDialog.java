@@ -1,5 +1,7 @@
 package com.reelify.kkkkwillo.Dialog;
 
+import static com.reelify.kkkkwillo.media.VideoFragment.CONFIG_INFO;
+
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
@@ -12,6 +14,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -34,6 +37,7 @@ public class CommentDialog extends Dialog {
     private CommentAdapter commentAdapter;
     private EditText etComment;
     RecyclerView recyclerView;
+    LinearLayout rootView;
     ListInfo.Comment data;
     Context context;
     int position;
@@ -57,6 +61,7 @@ public class CommentDialog extends Dialog {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.dialog_comment);
         etComment = findViewById(R.id.et_comment);
+        rootView = findViewById(R.id.mainView);
         Button btnSend = findViewById(R.id.btn_send);
         recyclerView = findViewById(R.id.recycler_view_comments);
         ImageView close = findViewById(R.id.close);

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="350dp"
+    android:id="@+id/mainView"
     android:layout_height="wrap_content"
     android:background="@drawable/dialog_shape"
     android:orientation="vertical">
@@ -27,6 +28,7 @@
         android:src="@drawable/download" />
 
     <TextView
+        android:textAlignment="viewStart"
         android:id="@+id/txt_wen1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -39,6 +41,7 @@
         android:textSize="16sp" />
 
     <TextView
+        android:textAlignment="viewStart"
         android:id="@+id/txt_wen2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -51,6 +54,7 @@
         android:textSize="16sp" />
 
     <TextView
+        android:textAlignment="viewStart"
         android:id="@+id/txt_wen3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

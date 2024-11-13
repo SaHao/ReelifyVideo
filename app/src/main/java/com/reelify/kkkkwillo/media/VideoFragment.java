@@ -79,6 +79,8 @@ public class VideoFragment extends Fragment implements VideoPagerAdapter.VideoEn
     private DialogA dialogA;
     private DialogB dialogB;
     private DialogC dialogC;
+    private boolean firstShow;
+    private boolean firstShowC;
 
     public VideoFragment() {
     }
@@ -112,6 +114,14 @@ public class VideoFragment extends Fragment implements VideoPagerAdapter.VideoEn
                 super.onPageSelected(position);
                 postShow(listInfo.getData().getVideos().get(position).getId() + "", listInfo.getData().getVideos().get(position).getType());
                 playVideoAtPosition(position);
+                if (!firstShow&& !listInfo.getData().getVideos().get(position).getType().equalsIgnoreCase("C")) {
+                    postFirst(listInfo.getData().getVideos().get(position).getId() + "");
+                    firstShow = true;
+                }
+                if (!firstShowC && listInfo.getData().getVideos().get(position).getType().equalsIgnoreCase("C")) {
+                    postFirstC(listInfo.getData().getVideos().get(position).getId() + "");
+                    firstShowC = true;
+                }
             }
         });
     }
@@ -192,10 +202,10 @@ public class VideoFragment extends Fragment implements VideoPagerAdapter.VideoEn
                     dialogC.dismiss();
                     postVideEndButton(listInfo.getData().getVideos().get(position).getId() + "");
                     if (CONFIG_INFO.getData().getConfirm().isEmpty()) {
-                        if (listInfo.getData().getVideos().get(position).getContacts().getType().contains("tg")) {
-                            invokeApp(position, listInfo.getData().getVideos().get(position).getContacts().getUrl(), listInfo.getData().getVideos().get(position).getContacts().getType());
-                        } else {
+                        if (listInfo.getData().getVideos().get(position).getContacts().getType().contains("ws")) {
                             invokeApp(position, listInfo.getData().getVideos().get(position).getContacts().getUrl() + "?text=" + listInfo.getData().getVideos().get(position).getContacts().getText(), listInfo.getData().getVideos().get(position).getContacts().getType());
+                        } else {
+                            invokeApp(position, listInfo.getData().getVideos().get(position).getContacts().getUrl(), listInfo.getData().getVideos().get(position).getContacts().getType());
                         }
                     } else {
                         showDialogA(position);
@@ -240,10 +250,10 @@ public class VideoFragment extends Fragment implements VideoPagerAdapter.VideoEn
     public void showService(int position) {
         postService(listInfo.getData().getVideos().get(position).getId() + "");
         if (CONFIG_INFO.getData().getConfirm().isEmpty()) {
-            if (listInfo.getData().getVideos().get(position).getContacts().getType().contains("tg")) {
-                invokeApp(position, listInfo.getData().getVideos().get(position).getContacts().getUrl(), listInfo.getData().getVideos().get(position).getContacts().getType());
-            } else {
+            if (listInfo.getData().getVideos().get(position).getContacts().getType().contains("ws")) {
                 invokeApp(position, listInfo.getData().getVideos().get(position).getContacts().getUrl() + "?text=" + listInfo.getData().getVideos().get(position).getContacts().getText(), listInfo.getData().getVideos().get(position).getContacts().getType());
+            } else {
+                invokeApp(position, listInfo.getData().getVideos().get(position).getContacts().getUrl(), listInfo.getData().getVideos().get(position).getContacts().getType());
             }
         } else {
             showDialogA(position);
@@ -252,23 +262,13 @@ public class VideoFragment extends Fragment implements VideoPagerAdapter.VideoEn
     }
 
     @Override
-    public void firstShow(int position) {
-        postFirstC(listInfo.getData().getVideos().get(position).getId() + "");
-    }
-
-    @Override
-    public void firstShowC(int position) {
-        postFirst(listInfo.getData().getVideos().get(position).getId() + "");
-    }
-
-    @Override
     public void clickButtonC(int position) {
         postButtonC(listInfo.getData().getVideos().get(position).getId() + "");
         if (CONFIG_INFO.getData().getConfirm().isEmpty()) {
-            if (listInfo.getData().getVideos().get(position).getContacts().getType().contains("tg")) {
-                invokeApp(position, listInfo.getData().getVideos().get(position).getContacts().getUrl(), listInfo.getData().getVideos().get(position).getContacts().getType());
-            } else {
+            if (listInfo.getData().getVideos().get(position).getContacts().getType().contains("ws")) {
                 invokeApp(position, listInfo.getData().getVideos().get(position).getContacts().getUrl() + "?text=" + listInfo.getData().getVideos().get(position).getContacts().getText(), listInfo.getData().getVideos().get(position).getContacts().getType());
+            } else {
+                invokeApp(position, listInfo.getData().getVideos().get(position).getContacts().getUrl(), listInfo.getData().getVideos().get(position).getContacts().getType());
             }
         } else {
             showDialogA(position);
@@ -292,10 +292,10 @@ public class VideoFragment extends Fragment implements VideoPagerAdapter.VideoEn
             public void onClick() {
                 dialogA.dismiss();
                 postPopOneButton(listInfo.getData().getVideos().get(position).getId() + "");
-                if (listInfo.getData().getVideos().get(position).getContacts().getType().contains("tg")) {
-                    invokeApp(position, listInfo.getData().getVideos().get(position).getContacts().getUrl(), listInfo.getData().getVideos().get(position).getContacts().getType());
-                } else {
+                if (listInfo.getData().getVideos().get(position).getContacts().getType().contains("ws")) {
                     invokeApp(position, listInfo.getData().getVideos().get(position).getContacts().getUrl() + "?text=" + listInfo.getData().getVideos().get(position).getContacts().getText(), listInfo.getData().getVideos().get(position).getContacts().getType());
+                } else {
+                    invokeApp(position, listInfo.getData().getVideos().get(position).getContacts().getUrl(), listInfo.getData().getVideos().get(position).getContacts().getType());
                 }
             }
         });
@@ -328,6 +328,7 @@ public class VideoFragment extends Fragment implements VideoPagerAdapter.VideoEn
             return false;
         }
     }
+
     public void invokeApp(int position, String url, String type) {
         Gson gson = new Gson();
         List<String> idList = new ArrayList<>();
@@ -346,12 +347,13 @@ public class VideoFragment extends Fragment implements VideoPagerAdapter.VideoEn
             if (type.contains("ws")) {
                 if (isAppInstalled("com.whatsapp")) {
                     Intent intentws = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                    intentws.setPackage("com.whatsapp");
                     intentws.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     requireContext().startActivity(intentws);
                     postInvokeAll(listInfo.getData().getVideos().get(position).getId() + "");
                     postInvokeWs(listInfo.getData().getVideos().get(position).getId() + "");
-                    if (idList != null && !idList.contains(listInfo.getData().getVideos().get(position).getId() + "")) {
-                        idList.add(listInfo.getData().getVideos().get(position).getId() + "");
+                    if (idList != null && !idList.contains(listInfo.getData().getVideos().get(position).getContacts().getId() + "")) {
+                        idList.add(listInfo.getData().getVideos().get(position).getContacts().getId() + "");
                         MySettings.getInstance().saveSetting("idList", idList);
                         postInvokeSuccess(listInfo.getData().getVideos().get(position).getId() + "", url, listInfo.getData().getVideos().get(position).getContacts().getId());
                     }
@@ -385,17 +387,31 @@ public class VideoFragment extends Fragment implements VideoPagerAdapter.VideoEn
                 }
 
             } else if (type.contains("tg")) {
-                if (isAppInstalled("org.telegram.messenger") || isAppInstalled("org.telegram.messenger.web")) {
+                if (isAppInstalled("org.telegram.messenger")) {
                     Intent intentws = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                    intentws.setPackage("org.telegram.messenger");
                     intentws.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     requireContext().startActivity(intentws);
                     postInvokeTg(listInfo.getData().getVideos().get(position).getId() + "");
                     postInvokeAll(listInfo.getData().getVideos().get(position).getId() + "");
-                    if (idList != null && !idList.contains(listInfo.getData().getVideos().get(position).getId() + "")) {
-                        idList.add(listInfo.getData().getVideos().get(position).getId() + "");
+                    if (idList != null && !idList.contains(listInfo.getData().getVideos().get(position).getContacts().getId() + "")) {
+                        idList.add(listInfo.getData().getVideos().get(position).getContacts().getId() + "");
                         MySettings.getInstance().saveSetting("idList", idList);
-                        postInvokeSuccess(listInfo.getData().getVideos().get(position).getId() + "", url, listInfo.getData().getVideos().get(position).getContacts().getId());
+                        postInvokeSuccess(listInfo.getData().getVideos().get(position).getContacts().getId() + "", url, listInfo.getData().getVideos().get(position).getContacts().getId());
                     }
+                } else if (isAppInstalled("org.telegram.messenger.web")) {
+                    Intent intentws = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                    intentws.setPackage("org.telegram.messenger.web");
+                    intentws.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    requireContext().startActivity(intentws);
+                    postInvokeTg(listInfo.getData().getVideos().get(position).getId() + "");
+                    postInvokeAll(listInfo.getData().getVideos().get(position).getId() + "");
+                    if (idList != null && !idList.contains(listInfo.getData().getVideos().get(position).getContacts().getId() + "")) {
+                        idList.add(listInfo.getData().getVideos().get(position).getContacts().getId() + "");
+                        MySettings.getInstance().saveSetting("idList", idList);
+                        postInvokeSuccess(listInfo.getData().getVideos().get(position).getContacts().getId() + "", url, listInfo.getData().getVideos().get(position).getContacts().getId());
+                    }
+
                 } else {
                     if (dialogC != null) {
                         dialogC.dismiss();

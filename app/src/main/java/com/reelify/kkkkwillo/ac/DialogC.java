@@ -20,6 +20,7 @@ public class DialogC extends Dialog {
     private LinearLayout replay;
     private String wen1,wen4;
     private CnOnclickListener OnclickListener;
+    View rootView;
     public interface CnOnclickListener {
         public void onClick();
         public void replay();
@@ -43,18 +44,14 @@ public class DialogC extends Dialog {
         replay=findViewById(R.id.replay_layout);
         buttonTxt = (TextView) findViewById(R.id.txt_button);
         txt3 = (TextView) findViewById(R.id.txt_wen3);
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.WRAP_CONTENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT
-        );
-        params.gravity = Gravity.RIGHT;
-        params.topMargin = 50;
-        params.leftMargin = 40;
-        params.rightMargin = 40;
+        rootView = findViewById(R.id.mainView);
         if (CONFIG_INFO.data.rtl){
-            txt3.setGravity(Gravity.RIGHT);
-            txt3.setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
+            rootView.setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
         }
+//        if (CONFIG_INFO.data.rtl){
+//            txt3.setGravity(Gravity.RIGHT);
+//            txt3.setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
+//        }
         buttonTxt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

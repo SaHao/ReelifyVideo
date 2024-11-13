@@ -21,6 +21,7 @@ public class DialogA extends Dialog {
     private ImageView closeImg;
     private AnOnclickListener OnclickListener;
     private String wen1,wen2,wen3,wen4;
+    View rootView;
     public interface AnOnclickListener {
         public void onClick();
     }
@@ -43,17 +44,12 @@ public class DialogA extends Dialog {
     private void initView() {
         closeImg = (ImageView) findViewById(R.id.close);
         buttonTxt = (TextView) findViewById(R.id.txt_button);
+        rootView = findViewById(R.id.mainView);
         txt1 = (TextView) findViewById(R.id.txt_wen1);
         txt2 = (TextView) findViewById(R.id.txt_wen2);
         txt3 = (TextView) findViewById(R.id.txt_wen3);
         if (CONFIG_INFO.data.rtl){
-            txt1.setGravity(Gravity.RIGHT);
-            txt2.setGravity(Gravity.RIGHT);
-            txt3.setGravity(Gravity.RIGHT);
-
-            txt1.setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
-            txt2.setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
-            txt3.setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
+            rootView.setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
         }
     }
 

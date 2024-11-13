@@ -19,6 +19,7 @@ public class DialogB extends Dialog {
     private ImageView closeImg;
     private String wen1,wen2,wen3,wen4;
     private BnOnclickListener OnclickListener;
+    View rootView;
     public interface BnOnclickListener {
         public void onClick();
     }
@@ -48,19 +49,23 @@ public class DialogB extends Dialog {
                 LinearLayout.LayoutParams.WRAP_CONTENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT
         );
-        params.gravity = Gravity.RIGHT;
-        params.topMargin = 50;
-        params.leftMargin = 40;
-        params.rightMargin = 40;
+        rootView = findViewById(R.id.mainView);
         if (CONFIG_INFO.data.rtl){
-            txt1.setGravity(Gravity.RIGHT);
-            txt2.setGravity(Gravity.RIGHT);
-            txt3.setGravity(Gravity.RIGHT);
-
-            txt1.setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
-            txt2.setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
-            txt3.setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
+            rootView.setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
         }
+//        params.gravity = Gravity.RIGHT;
+//        params.topMargin = 50;
+//        params.leftMargin = 40;
+//        params.rightMargin = 40;
+//        if (CONFIG_INFO.data.rtl){
+//            txt1.setGravity(Gravity.RIGHT);
+//            txt2.setGravity(Gravity.RIGHT);
+//            txt3.setGravity(Gravity.RIGHT);
+//
+//            txt1.setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
+//            txt2.setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
+//            txt3.setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
+//        }
     }
 
     private void initEvent() {

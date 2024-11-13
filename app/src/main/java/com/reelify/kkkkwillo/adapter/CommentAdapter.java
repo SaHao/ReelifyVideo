@@ -80,11 +80,9 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
             tvName = itemView.findViewById(R.id.Nickname);
             tvTime = itemView.findViewById(R.id.Time);
             imgAvatar = itemView.findViewById(R.id.avatar);
-
-            if (CONFIG_INFO.data.rtl){
-                tvComment.setGravity(Gravity.RIGHT);
-                tvComment.setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
-            }
+//            if (CONFIG_INFO.data.rtl){
+//                itemView.setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
+//            }
         }
 
     }

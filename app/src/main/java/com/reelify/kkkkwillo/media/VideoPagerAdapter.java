@@ -46,8 +46,6 @@ public class VideoPagerAdapter extends RecyclerView.Adapter<VideoPagerAdapter.Vi
     private VideoEndListener videoEndListener;
     private boolean isLike;
     private long downTime;
-    private boolean firstShow;
-    private boolean firstShowC;
     private  ImageAdapter viewPagerAdapter;
     public VideoPagerAdapter(Context context, VideoEndListener videoEndListener) {
         this.context = context;
@@ -123,14 +121,7 @@ public class VideoPagerAdapter extends RecyclerView.Adapter<VideoPagerAdapter.Vi
                     videoEndListener.clickButtonC(position);
                 }
             });
-            if (!firstShow){
-                videoEndListener.firstShow(position);
-                firstShow=true;
-            }
-            if (!firstShowC&&dataList.get(position).getType().equalsIgnoreCase("C")){
-                videoEndListener.firstShowC(position);
-                firstShowC=true;
-            }
+
             if (dataList.get(position).getSources().get(0).getType().contains("mp4")) {
                 String videoUrl = dataList.get(position).getSources().get(0).getSrc();
                 holder.recyclerView.setVisibility(View.GONE);
@@ -297,8 +288,7 @@ public class VideoPagerAdapter extends RecyclerView.Adapter<VideoPagerAdapter.Vi
             recyclerView = itemView.findViewById(R.id.myRcv);
             pause = itemView.findViewById(R.id.pause_img);
             if (CONFIG_INFO.data.rtl){
-                dis.setGravity(Gravity.RIGHT);
-                dis.setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
+                itemView.setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
             }
         }
 
@@ -317,10 +307,6 @@ public class VideoPagerAdapter extends RecyclerView.Adapter<VideoPagerAdapter.Vi
         void showComment(int position, TextView view);
 
         void showService(int position);
-
-        void firstShow(int position);
-
-        void firstShowC(int position);
 
         void clickButtonC(int position);
 

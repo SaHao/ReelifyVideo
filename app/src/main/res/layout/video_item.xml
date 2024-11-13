@@ -31,7 +31,7 @@
     <ImageView
         android:layout_marginTop="20dp"
         android:id="@+id/ads"
-        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:scaleType="fitXY"
@@ -147,15 +147,14 @@
         </LinearLayout>
 
         <TextView
-            android:gravity="end"
-            android:layoutDirection="rtl"
+            android:textAlignment="viewStart"
             android:id="@+id/mTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="15dp"
             android:textColor="@android:color/white"
-            android:textSize="14sp"
+            android:textSize="16sp"
             tools:text="斤斤计较进来撒动静分离凯撒金是刷卡机 " />
 
         <TextView
