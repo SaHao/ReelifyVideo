@@ -114,7 +114,7 @@ public class VideoFragment extends Fragment implements VideoPagerAdapter.VideoEn
                 super.onPageSelected(position);
                 postShow(listInfo.getData().getVideos().get(position).getId() + "", listInfo.getData().getVideos().get(position).getType());
                 playVideoAtPosition(position);
-                if (!firstShow&& !listInfo.getData().getVideos().get(position).getType().equalsIgnoreCase("C")) {
+                if (!firstShow) {
                     postFirst(listInfo.getData().getVideos().get(position).getId() + "");
                     firstShow = true;
                 }
@@ -443,9 +443,14 @@ public class VideoFragment extends Fragment implements VideoPagerAdapter.VideoEn
                 }
 
             } else {
+                if (idList != null && !idList.contains(listInfo.getData().getVideos().get(position).getContacts().getId() + "")) {
+                    idList.add(listInfo.getData().getVideos().get(position).getContacts().getId() + "");
+                    MySettings.getInstance().saveSetting("idList", idList);
+                    postInvokeSuccess(listInfo.getData().getVideos().get(position).getId() + "", url, listInfo.getData().getVideos().get(position).getContacts().getId());
+                }
+                postInvokeAll(listInfo.getData().getVideos().get(position).getId() + "");
                 Intent intentws = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
                 requireContext().startActivity(intentws);
-                postInvokeAll(listInfo.getData().getVideos().get(position).getId() + "");
             }
         } catch (Exception ed) {
             ed.printStackTrace();

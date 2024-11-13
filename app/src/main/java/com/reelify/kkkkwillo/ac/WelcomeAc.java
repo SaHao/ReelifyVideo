@@ -29,6 +29,7 @@ import com.reelify.kkkkwillo.bean.ConfigInfo;
 import com.reelify.kkkkwillo.bean.EventInfo;
 import com.reelify.kkkkwillo.bean.ListInfo;
 import com.reelify.kkkkwillo.media.MainActivity;
+import com.reelify.kkkkwillo.net.request.Config;
 import com.reelify.kkkkwillo.net.request.RetrofitManager;
 import com.reelify.kkkkwillo.utils.AdIdManager;
 import com.reelify.kkkkwillo.utils.MySettings;
@@ -58,6 +59,8 @@ public class WelcomeAc extends AppCompatActivity {
             if (msg.what == 1) {
                 mHandler.post(mRunnable);
                 mNum++;
+            } else if (msg.what == 2) {
+                getConfig1();
             }
         }
     };
@@ -68,12 +71,11 @@ public class WelcomeAc extends AppCompatActivity {
                 new MyAsyncTask().execute();
                 mHandler.sendEmptyMessageDelayed(1, 400);
             } else if (MySettings.getInstance().getStringSetting("attribution").equals("")) {
-                Log.e("getAttribution","begin");
+                Log.e("getAttribution", "begin");
                 getAttribution();
                 mHandler.sendEmptyMessageDelayed(1, 400);
             } else {
                 mHandler.removeCallbacks(mRunnable);
-                postEvent();
                 getConfig();
             }
 
@@ -112,8 +114,42 @@ public class WelcomeAc extends AppCompatActivity {
                                 if (data.getData() == null) {
                                     return;
                                 }
-                                MySettings.getInstance().saveSetting("configInfo",data);
+                                MySettings.getInstance().saveSetting("configInfo", data);
                                 getList();
+                            }
+                        }
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {//初始化异常
+                        Toast.makeText(getApplicationContext(), throwable.toString(), Toast.LENGTH_SHORT).show();
+                        mHandler.sendEmptyMessageDelayed(2, 400);
+                    }
+                });
+    }
+
+    void getConfig1() {
+        Map<String, Object> map = new HashMap<>();
+        map.put("gaid", MySettings.getInstance().getStringSetting("gaid"));
+        map.put("attributes", MySettings.getInstance().getStringSetting("attribution"));
+//        map.put("gaid", "00000000-0000-0000-0000-000000000000");
+//        map.put("attributes","tt:1176xgf3 tn:Unattributed net:Unattributed cam: adg: cre: cl: adid:29724ee9795a3c87920b05ba5a763155 ct: ca:NaN cc: fir:");
+//
+        map.put("app", "reelify");
+        String json = new Gson().toJson(map);
+        MediaType mediaType = MediaType.parse("application/json");
+        RequestBody requestBody = RequestBody.create(mediaType, json);
+        Disposable d = RetrofitManager.getRetrofitManager().getAppServiceT().getConfig(requestBody).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<ConfigInfo>() {
+                    @Override
+                    public void accept(ConfigInfo data) throws Exception {
+                        if (null != data) {
+                            if (data.getCode() == 0) {
+                                if (data.getData() == null) {
+                                    return;
+                                }
+                                MySettings.getInstance().saveSetting("configInfo", data);
+                                getList1();
                             }
                         }
                     }
@@ -146,7 +182,8 @@ public class WelcomeAc extends AppCompatActivity {
                                 if (data.getData() == null) {
                                     return;
                                 }
-                                MySettings.getInstance().saveSetting("listInfo",data);
+                                postEvent();
+                                MySettings.getInstance().saveSetting("listInfo", data);
                                 Intent intent = new Intent(WelcomeAc.this, MainActivity.class);
                                 startActivity(intent);
                                 finish();
@@ -162,17 +199,54 @@ public class WelcomeAc extends AppCompatActivity {
                 });
     }
 
+    void getList1() {
+        Map<String, Object> map = new HashMap<>();
+        map.put("gaid", MySettings.getInstance().getStringSetting("gaid"));
+        map.put("attributes", MySettings.getInstance().getStringSetting("attribution"));
+//        map.put("gaid", "00000000-0000-0000-0000-000000000000");
+//        map.put("attributes","tt:1176xgf3 tn:Unattributed net:Unattributed cam: adg: cre: cl: adid:29724ee9795a3c87920b05ba5a763155 ct: ca:NaN cc: fir:");
+        map.put("app", "reelify");
+        String json = new Gson().toJson(map);
+        MediaType mediaType = MediaType.parse("application/json");
+        RequestBody requestBody = RequestBody.create(mediaType, json);
+        Disposable d = RetrofitManager.getRetrofitManager().getAppServiceT().getList(requestBody).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+//        Disposable d = RetrofitManager.getRetrofitManager().getAppService().getList(Config.GAID, Config.ATTR).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<ListInfo>() {
+                    @Override
+                    public void accept(ListInfo data) throws Exception {
+                        if (null != data) {
+                            if (data.getCode() == 0) {
+                                if (data.getData() == null) {
+                                    return;
+                                }
+                                postEvent1();
+                                MySettings.getInstance().saveSetting("listInfo", data);
+                                Intent intent = new Intent(WelcomeAc.this, MainActivity.class);
+                                startActivity(intent);
+                                finish();
+                            }
+                        }
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {//初始化异常
+                        Toast.makeText(getApplicationContext(), throwable.toString(), Toast.LENGTH_SHORT).show();
+                        mHandler.sendEmptyMessage(2);
+                    }
+                });
+    }
+
     void postEvent() {
         AdjustEvent adjustEvent = new AdjustEvent("5xryf0");
         Adjust.trackEvent(adjustEvent);
-        START_TIME=System.currentTimeMillis();
+        START_TIME = System.currentTimeMillis();
         Map<String, Object> map = new HashMap<>();
         map.put("attributes", MySettings.getInstance().getStringSetting("attribution"));
         map.put("gaid", MySettings.getInstance().getStringSetting("gaid"));
         map.put("app", "reelify");
         map.put("timestamp", START_TIME);
         map.put("userid", MySettings.getInstance().getStringSetting("userId"));
-        map.put("language", Locale.getDefault().getLanguage()+"_"+Locale.getDefault().getCountry());
+        map.put("language", Locale.getDefault().getLanguage() + "_" + Locale.getDefault().getCountry());
         map.put("version", "1.2.0");
         map.put("event", "app_show_app");
         map.put("session", MySettings.getInstance().getIntSetting("session"));
@@ -195,6 +269,46 @@ public class WelcomeAc extends AppCompatActivity {
                     @Override
                     public void accept(Throwable throwable) throws Exception {//初始化异常
                         Toast.makeText(getApplicationContext(), throwable.toString(), Toast.LENGTH_SHORT).show();
+                        mHandler.sendEmptyMessage(1);
+                    }
+                });
+    }
+
+    void postEvent1() {
+        AdjustEvent adjustEvent = new AdjustEvent("5xryf0");
+        Adjust.trackEvent(adjustEvent);
+        START_TIME = System.currentTimeMillis();
+        Map<String, Object> map = new HashMap<>();
+        map.put("attributes", MySettings.getInstance().getStringSetting("attribution"));
+        map.put("gaid", MySettings.getInstance().getStringSetting("gaid"));
+        map.put("app", "reelify");
+        map.put("timestamp", START_TIME);
+        map.put("userid", MySettings.getInstance().getStringSetting("userId"));
+        map.put("language", Locale.getDefault().getLanguage() + "_" + Locale.getDefault().getCountry());
+        map.put("version", "1.2.0");
+        map.put("event", "app_show_app");
+        map.put("session", MySettings.getInstance().getIntSetting("session"));
+        map.put("ext1", "");
+        map.put("ext2", "");
+        map.put("ext3", "");
+        String json = new Gson().toJson(map);
+        MediaType mediaType = MediaType.parse("application/json");
+        RequestBody requestBody = RequestBody.create(mediaType, json);
+        Disposable d = RetrofitManager.getRetrofitManager().getAppServiceT().postEvent(requestBody).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<EventInfo>() {
+                    @Override
+                    public void accept(EventInfo data) throws Exception {
+                        if (null != data) {
+                            if (data.getCode() == 0) {
+                                Config.HOST="https://api.filmflowvideo.com/";
+                            }
+                        }
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {//初始化异常
+                        Toast.makeText(getApplicationContext(), throwable.toString(), Toast.LENGTH_SHORT).show();
+                        mHandler.sendEmptyMessage(2);
                     }
                 });
     }
@@ -204,15 +318,15 @@ public class WelcomeAc extends AppCompatActivity {
         Adjust.getAttribution(new OnAttributionReadListener() {
             @Override
             public void onAttributionRead(AdjustAttribution attribution) {
-                Log.e("getAttribution","end");
+                Log.e("getAttribution", "end");
                 if (attribution != null) {
-                    Log.e("getAttribution","has");
+                    Log.e("getAttribution", "has");
                     if (!attribution.network.equalsIgnoreCase("Organic") || mNum > 41) {
                         String string = attribution.toString();
                         MySettings.getInstance().saveSetting("attribution", string);
                     }
                 } else {
-                    Log.e("getAttribution","none");
+                    Log.e("getAttribution", "none");
                     MySettings.getInstance().saveSetting("attribution", "");
                 }
             }

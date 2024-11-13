@@ -61,4 +61,11 @@ public class RetrofitManager {
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create()).build();
         return retrofit.create(AppService.class);
     }
+    public AppService getAppServiceT() {
+        Retrofit retrofit = new Retrofit.Builder().baseUrl(Config.HOST1).client(okHttpClient)
+                .addConverterFactory(new NullOnEmptyConverterFactory())
+                .addConverterFactory(GsonConverterFactory.create())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create()).build();
+        return retrofit.create(AppService.class);
+    }
 }
