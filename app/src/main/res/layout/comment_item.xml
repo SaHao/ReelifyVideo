@@ -5,43 +5,47 @@
     android:layout_height="80dp"
     android:background="@color/white"
     tools:ignore="MissingDefaultResource">
-<de.hdodenhof.circleimageview.CircleImageView
-    android:src="@drawable/icon_avatar"
-    android:id="@+id/avatar"
-    android:layout_marginTop="2dp"
-    android:layout_marginLeft="15dp"
-    android:layout_width="40dp"
-    android:layout_height="40dp"/>
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/avatar"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="2dp"
+        android:src="@drawable/icon_avatar" />
+
     <TextView
-        android:textAlignment="viewStart"
-        android:layout_marginTop="8dp"
-        android:layout_marginLeft="20dp"
-        android:layout_toRightOf="@+id/avatar"
         android:id="@+id/Nickname"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="8dp"
+        android:layout_toEndOf="@+id/avatar"
         android:text="KKKKSA"
-        android:textStyle="bold"
+        android:textAlignment="viewStart"
+        android:textColor="@color/black"
         android:textSize="16sp"
-        android:textColor="@color/black"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:textStyle="bold" />
+
     <TextView
-        android:textAlignment="viewStart"
-        android:layout_below="@+id/Nickname"
-        android:layout_alignLeft="@+id/Nickname"
         android:id="@+id/Desc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/Nickname"
+        android:layout_alignStart="@+id/Nickname"
         android:text="jasjk,popoqwer.asdkjalkjfa;lkwer"
-        android:textSize="12sp"
-        android:textColor="@color/black"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
-    <TextView
         android:textAlignment="viewStart"
-        android:layout_below="@+id/Desc"
-        android:layout_alignLeft="@+id/Desc"
-        android:id="@+id/Time"
-        android:text="5d"
-        android:textSize="12sp"
         android:textColor="@color/black"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/Time"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/Desc"
+        android:layout_alignStart="@+id/Desc"
+        android:text="5d"
+        android:textAlignment="viewStart"
+        android:textColor="@color/black"
+        android:textSize="12sp" />
 </RelativeLayout>

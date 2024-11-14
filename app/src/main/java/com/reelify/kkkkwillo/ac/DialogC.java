@@ -48,10 +48,6 @@ public class DialogC extends Dialog {
         if (CONFIG_INFO.data.rtl){
             rootView.setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
         }
-//        if (CONFIG_INFO.data.rtl){
-//            txt3.setGravity(Gravity.RIGHT);
-//            txt3.setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
-//        }
         buttonTxt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

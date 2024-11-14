@@ -82,7 +82,10 @@ public class CommentDialog extends Dialog {
         commentAdapter = new CommentAdapter(comments, context);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
         recyclerView.setAdapter(commentAdapter);
-
+        if (CONFIG_INFO.data.rtl){
+            recyclerView.setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
+            rootView.setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
+        }
         btnSend.setOnClickListener(view -> {
             sendComment();
         });
