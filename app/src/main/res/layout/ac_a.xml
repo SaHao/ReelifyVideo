@@ -12,7 +12,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingRight="30dp"
-        android:text="Jobs News"
         android:textColor="@color/white"
         android:textSize="26sp" />
 
